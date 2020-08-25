@@ -3,18 +3,20 @@ kind: Deployment
 metadata:
   labels:
     app: tonic-web-server
+    {{- include "tonic.labels" . | nindent 4 }}
   name: tonic-web-server
-  namespace: tonic
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: tonic-web-server
+      {{- include "tonic.selectorLabels" . | nindent 6 }}
   strategy: {}
   template:
     metadata:
       labels:
         app: tonic-web-server
+        {{- include "tonic.selectorLabels" . | nindent 8 }}
     spec:
       containers:
       - env:

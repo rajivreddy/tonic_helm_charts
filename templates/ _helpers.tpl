@@ -48,5 +48,4 @@ Selector labels
 */}}
 {{- define "tonic.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "tonic.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

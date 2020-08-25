@@ -2,28 +2,30 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tonic-pii-detection
-  namespace: tonic
   labels:
-    app: tonic-pii-detection  
+    app: tonic-pii-detection
+    {{- include "tonic.labels" . | nindent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.piiDetection.replicaCount }}
   selector:
     matchLabels:
       app: tonic-pii-detection
+      {{- include "tonic.selectorLabels" . | nindent 6 }}
   strategy: {}
   template:
     metadata:
       labels:
         app: tonic-pii-detection
+        {{- include "tonic.selectorLabels" . | nindent 8 }}
     spec:
       containers:
       - env:
         - name: ENABLE_LOG_COLLECTION
-          value: {{quote .Values.enableLogCollection }}
+          value: {{quote .Values.piiDetection.enableLogCollection }}
         - name: ENVIRONMENT_NAME
-          value: {{ .Values.environmentName }}
+          value: {{ .Values.piiDetection.environmentName }}
         image: {{ .Values.dockerRepoBaseUrl }}/tonic_pii_detection:latest
-        imagePullPolicy: ""
+        imagePullPolicy: {{ .Values.piiDetection.image.pullPolicy }}
         name: tonic-pii-detection
         ports:
         - containerPort: 7687

@@ -4,17 +4,18 @@ metadata:
   labels:
     app: tonic-worker
   name: tonic-worker
-  namespace: tonic
 spec:
   replicas: {{ .Values.numberOfWorkers }}
   selector:
     matchLabels:
       app: tonic-worker
+      {{- include "tonic.selectorLabels" . | nindent 6 }}
   strategy: {}
   template:
     metadata:
       labels:
         app: tonic-worker
+        {{- include "tonic.selectorLabels" . | nindent 8 }}
     spec:
       containers:
       - env:

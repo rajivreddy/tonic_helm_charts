@@ -1,20 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tonic-queue
-  namespace: tonic
+  name: {{ include "tonic.fullname" . }}
   labels:
     app: tonic-queue
+    {{- include "tonic.labels" . | nindent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: tonic-queue
+      {{- include "tonic.selectorLabels" . | nindent 6 }}
   strategy: {}
   template:
     metadata:
       labels:
         app: tonic-queue
+        {{- include "tonic.selectorLabels" . | nindent 8 }}
     spec:
       containers:
       - env:
